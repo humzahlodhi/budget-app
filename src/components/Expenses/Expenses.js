@@ -1,7 +1,7 @@
-import ExpenseItem from './ExpenseItem';
 import Card from '../UI/Card';
 import './Expenses.css';
 import ExpensesFilter from './ExpensesFilter';
+import ExpensesList from './ExpensesList';
 import React, { useState } from 'react';
 
 function Expenses(props) {
@@ -12,30 +12,32 @@ function Expenses(props) {
         setYearSelected(selectedYear);
     };
 
+    const filteredExpenses = props.items.filter(expense => {
+        return expense.date.getFullYear().toString() === yearSelected;
+    })
+
     return (
         <div>
             <Card className="expenses">
-                <ExpensesFilter selected={yearSelected} onChangeFilter={filterChangeHandler} />
-                <ExpenseItem
-                    title={props.items[0].title}
-                    amount={props.items[0].amount}
-                    date={props.items[0].date}
+                <ExpensesFilter
+                    selected={yearSelected}
+                    onChangeFilter={filterChangeHandler}
                 />
-                <ExpenseItem
-                    title={props.items[1].title}
-                    amount={props.items[1].amount}
-                    date={props.items[1].date}
-                />
-                <ExpenseItem
-                    title={props.items[2].title}
-                    amount={props.items[2].amount}
-                    date={props.items[2].date}
-                />
-                <ExpenseItem
-                    title={props.items[3].title}
-                    amount={props.items[3].amount}
-                    date={props.items[3].date}
-                />
+                {/* map method runs on each element in in array and returns a new array
+                this works because react is capable of rendering an array of jsx elements.
+                For example: {[<Card />, <Card />]}. Below is an alternative to {ExpensesContent}
+
+                {filteredExpenses.length === 0 && <p>No expenses found.</p>}
+                {filteredExpenses.length > 0 &&
+                    filteredExpenses.map((expense) => (
+                        <ExpenseItem
+                            key={expense.id}
+                            title={expense.title}
+                            amount={expense.amount}
+                            date={expense.date}
+                        />
+                    ))}*/}
+                <ExpensesList items={filteredExpenses} />
             </Card>
         </div>
     )

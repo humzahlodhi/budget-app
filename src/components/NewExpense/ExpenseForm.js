@@ -32,8 +32,11 @@ const ExpenseForm = (props) => {
     };
 
     const dateChangeHandler = (event) => {
+        //console.log(typeof (event.target.value));
+        //console.log(event.target.value);
         setUserInput((prevState) => {
             return { ...prevState, date: new Date(event.target.value) };
+
         });
     };
 
@@ -47,7 +50,12 @@ const ExpenseForm = (props) => {
             date: ''
         })
     }
-    // in below form input element, the value assignmnent is known as two-way binding
+
+    console.log(userInput);
+    // in below form input element, the value assignmnent is known as two-way binding. The onChange listens for
+    // input changes and updates our state values. W/ 2-way binding, we also feed the state back into the input
+    // so when we change the state, we also change the input.
+
     return <form onSubmit={submitHandler}>
         <div className="new-expense__controls">
             <div className="new-expense__control">
@@ -69,16 +77,18 @@ const ExpenseForm = (props) => {
             <div className="new-expense__control">
                 <label>Date</label>
                 <input
-                    type="date"
+                    type='date'
                     min="2019-01-01"
                     max="2022-12-31"
+                    value={userInput.date}
                     onChange={dateChangeHandler} />
             </div>
         </div>
         <div className="new-expense__actions">
             <button type="submit">Add Expense</button>
+            <button type="button" onClick={props.onCancel}> Cancel</button>
         </div>
-    </form>
+    </form >
 }
 
 export default ExpenseForm;
